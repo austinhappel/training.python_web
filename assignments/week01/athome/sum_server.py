@@ -1,6 +1,15 @@
 import socket
 import json
 
+# 1. Create a socket server which can take two numbers, add them together, and
+# return the result
+#
+# 2. Create a socket client that sends two numbers to the above server, and
+# receives and prints the returned result.
+#
+# Submit your work by forking this repository. Add the server and client scripts
+# to your fork and then issue a pull request.
+
 # Create a TCP/IP socket
 server_socket = socket.socket()
 
@@ -31,8 +40,8 @@ while True:
                 full_data += packets
                 print 'returning sum:'
                 numbers = json.loads(full_data)
-                num1 = float(numbers[0]) if '.' in numbers[0] else int(numbers[0])
-                num2 = float(numbers[1]) if '.' in numbers[1] else int(numbers[1])
+                num1 = float(numbers[0])
+                num2 = float(numbers[1])
                 result = num1 + num2
                 message = 'The result: ' + numbers[0] + ' + ' + numbers[1] + ' = ' + str(result)
                 print message

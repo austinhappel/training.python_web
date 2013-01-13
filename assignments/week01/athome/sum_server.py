@@ -13,8 +13,16 @@ import json
 # Create a TCP/IP socket
 server_socket = socket.socket()
 
+# ask user to set ip address for the socket
+server_ip = raw_input('Enter the ip address to bind the socket to (defaults to localhost): ')
+
+if (len(server_ip) == 0):
+    server_ip = 'localhost'
+
+print 'Binding to ' + str(server_ip) + ' port: 50000'
+
 # Bind the socket to the port
-server_address = ('localhost', 50000)
+server_address = (server_ip, 50000)
 
 # Listen for incoming connections
 server_socket.bind(server_address)

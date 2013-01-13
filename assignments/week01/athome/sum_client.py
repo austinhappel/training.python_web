@@ -13,7 +13,7 @@ import json
 # list of available servers
 server_addresses = [
     ['localhost', ('localhost', 50000)],
-    ['bluebox vm', ('block647049-vxq.blueboxgrid.com', 50000)]
+    ['bluebox vm', ('67.214.217.209', 50000)]  # 67.214.217.209 # block647049-vxq.blueboxgrid.com
 ]
 
 SERVER_ADDRESS = server_addresses[0][1]
@@ -54,6 +54,7 @@ Please type the number of the server you want to use. Your options are: \n'
                     SERVER_ADDRESS = server_addresses[chosen_server][1]
                     SERVER_CHOSEN = True
                     print str(server_addresses[chosen_server][0]) + ' chosen.\n'
+                    print SERVER_ADDRESS
                     break
                 else:
                     print 'Invalid choice. Try again! \n\n'

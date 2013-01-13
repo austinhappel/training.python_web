@@ -54,7 +54,6 @@ Please type the number of the server you want to use. Your options are: \n'
                     SERVER_ADDRESS = server_addresses[chosen_server][1]
                     SERVER_CHOSEN = True
                     print str(server_addresses[chosen_server][0]) + ' chosen.\n'
-                    print SERVER_ADDRESS
                     break
                 else:
                     print 'Invalid choice. Try again! \n\n'

@@ -7,6 +7,9 @@ port = 50000
 backlog = 5  # how many connections can we stack up
 size = 1024  # number of bytes to receive at once
 
+# get file to serve
+file = open('tiny_html.html', 'r').read()
+
 ## create the socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # set an option to tell the OS to re-use the socket
@@ -21,5 +24,6 @@ while True:  # keep looking for new connections forever
     data = client.recv(size)
     if data:  # if the connection was closed there would be no data
         print "received: %s, sending it back" % data
-        client.send(data)
+        # client.send(data)
+        client.send(file)
         client.close()

@@ -20,16 +20,26 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind((host, port))
 s.listen(backlog)
 
+# I'm not 100% sure if the 400 error codes are correct.
+response_codes = {
+    200: 'HTTP/1.1 200 OK\r\n',
+
+    # This is returned if we have an HTTP request but the method is not GET.
+    405: 'HTTP/1.1 405 Method Not Allowed\r\nAllow: GET, HEAD\r\n',
+
+    # This is returned if the request is not HTTP at all, or malformed.
+    400: 'HTTP/1.1 400 Bad Request\r\n'
+}
+
 
 # Parse the client's request.
 def parse_request(request):
+    """ Parses a request and returns the URI of the request. If the request is
+    not an HTTP request using the GET method, an error is thrown."""
+
     print 'got request: ' + request
 
-    response_codes = {
-        200: 'HTTP/1.1 200 OK\r\n',
-        405: 'HTTP/1.1 405 Method Not Allowed\r\nAllow: GET, HEAD\r\n',
-        400: 'HTTP/1.1 400 Bad Request\r\n'
-    }
+    global response_codes
 
     header_date = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()) + '\r\n'
 
@@ -39,20 +49,35 @@ def parse_request(request):
     index_get = lines[0].find('GET')
     index_http = lines[0].find('HTTP')
 
-    # Return the URL of the request if it's a HTTP GET request,
-    # but throw a ValueError if not.
-    if index_http > -1:
-        if index_get > -1:
+    try:
+        # Return the URL of the request if it's a HTTP GET request,
+        # send error response otherwise.
+        if index_http > -1 and index_get > -1:
             print 'Client is requesting HTML'
             request = lines[0][(index_get + 3):index_http]
             return response_codes[200] + header_date + '\r\n' + str("<h1>your request is: " + request + "</h1>")
 
-        # Bullet 3 wants us to raise a ValueError, but instead we'll return a 405
-        # raise ValueError('The request (%s) is not an HTTP GET request.' % (lines[0]))
-        print 'Have HTTP request, but invalid method.'
-        return response_codes[405]
+        # raise a value error if not http or GET.
+        raise ValueError('The request (%s) is not an HTTP GET request.' % (lines[0]))
 
-    # If this isn't an HTTP request, send 400 error (bad request)
+    # catch that error...
+    except ValueError:
+        return client_error_response(index_http, index_get)
+
+
+# It seems unnecessary to abstract this logic out and try/catch a valueError
+# (I would have put this logic into) the original `if` statement in parse_request)
+# but I will do as the lab requests.
+def client_error_response(index_http, index_get):
+    """ Returns an error response to the client. """
+
+    global response_codes
+
+    if index_http > -1:
+        if index_get == -1:
+            print 'Have HTTP request, but invalid method.'
+            return response_codes[405]
+    print 'This is not an HTTP request.'
     return response_codes[400]
 
 

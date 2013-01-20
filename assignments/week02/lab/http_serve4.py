@@ -90,8 +90,6 @@ def client_response(msg, header_code=200):
         'close': '\r\n'
     }
 
-    print response['header_response_code']
-
     client.send(response['header_response_code'] + response['header_datetime'] +\
     response['body'] + response['close'])
 
@@ -102,7 +100,6 @@ def resolve_uri(uri):
     requested_path = cwd + uri
 
     if os.path.exists(str(requested_path)):
-        print 'path exists'
         if os.path.isfile(requested_path):
             raise NotImplementedError('Not implemented.')
 

@@ -137,7 +137,6 @@ class ClientResponse:
                         'Accept-Ranges: bytes',
                         'Content-Length: ' + str(os.path.getsize(requested_path)),
                         'Content-Type: ' + mime_types[fileExtension[1:]],
-                        'Connection: keep-alive'
                     ]
 
                     self.send_headers(headers=headers)

@@ -1,1 +1,8 @@
 <h1>User search: {{user}}</h1>
+<!-- <pre>{{json}}</pre> -->
+<h1>User top artists:</h1>
+<ul>
+{{#user_top_artists_names}}
+    <li><a href="/artist/{{url}}">{{name}}</a></li>
+{{/user_top_artists_names}}
+</ul>

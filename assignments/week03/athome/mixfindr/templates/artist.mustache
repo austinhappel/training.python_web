@@ -1,1 +1,8 @@
 <h1>Artist search: {{artist}}</h1>
+<pre>{{json}}</pre>
+<h1>Similar artists:</h1>
+<ul>
+{{#similar_artists_names}}
+    <li>{{.}}</li>
+{{/similar_artists_names}}
+</ul>

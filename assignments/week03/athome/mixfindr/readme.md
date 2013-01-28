@@ -10,6 +10,7 @@ You can also do an artist search, which will find mixes for that artist, and als
 2. Make virtual environment
 
         mkdir env && virtualenv env
+        
 3. In env, install pip requirements
 
         pip install -r requirements.txt

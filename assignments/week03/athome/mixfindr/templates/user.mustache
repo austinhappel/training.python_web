@@ -1,8 +1,28 @@
-<h1>User search: {{user}}</h1>
-<!-- <pre>{{json}}</pre> -->
-<h1>User top artists:</h1>
-<ul>
-{{#user_top_artists_names}}
-    <li><a href="/artist/{{url}}">{{name}}</a></li>
-{{/user_top_artists_names}}
-</ul>
+<!doctype html>
+<html>
+    <head>
+        {{> templates/header}}    
+    </head>
+    <body>
+        {{> templates/search-bar}}
+        <div class="container">
+            <div class="container">
+                <h1>Mixes found for {{user}}'s top artists:</h1>
+            </div>
+            {{#user_top_artists_data}}
+            <div class="row">
+                {{#.}}
+                <div class="span4">
+                    <h4 class="artist-name">{{name}}</h4><a class="search-this-artist" href="{{url}}">Search this artist</a>
+                    <ul>
+                        {{#mixes}}
+                            <li><a href="{{url}}">{{title}}</a></li>
+                        {{/mixes}}
+                    </ul>
+                </div>
+                {{/.}}
+            </div>
+            {{/user_top_artists_data}}
+        </div>
+    </body>
+</html>

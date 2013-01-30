@@ -35,7 +35,11 @@ def find_artist_mixes(artist_id):
     }
     url_artist_mixes = '%ssearch/?%s' % (mixcloud_base_url, urllib.urlencode(query))
     req_artist_mixes = urllib2.urlopen(url_artist_mixes)
-    artist_mixes = json.loads(req_artist_mixes.read())
+    if req_artist_mixes.code == 200:
+        log.debug('artist mixes!')
+        artist_mixes = json.load(req_artist_mixes)
+    else:
+        artist_mixes = ''
     return artist_mixes
 
 
@@ -57,7 +61,12 @@ def get_and_filter_artist_mixes(artist_id):
 def find_similar_artists(artist_id):
     url_similar_artists = '%s?method=artist.getsimilar&%s&format=json' % (last_fm_base_url, urllib.urlencode({'artist': artist_id.encode('utf-8'), 'api_key': last_fm_api_key}))
     req_similar_artists = urllib2.urlopen(url_similar_artists)
-    similar_artists = json.loads(req_similar_artists.read())
+
+    if req_similar_artists == 200:
+        similar_artists = json.load(req_similar_artists)
+    else:
+        similar_artists = ''
+
     return similar_artists
 
 
@@ -65,7 +74,12 @@ def find_similar_artists(artist_id):
 def get_user_top_artists(user_id):
     url_user_top_artists = '%s?method=user.gettopartists&%s&format=json' % (last_fm_base_url, urllib.urlencode({'user': user_id, 'api_key': last_fm_api_key}))
     req_user_top_artists = urllib2.urlopen(url_user_top_artists)
-    user_top_artists = json.loads(req_user_top_artists.read())
+
+    if req_user_top_artists.code == 200:
+        user_top_artists = json.load(req_user_top_artists)
+    else:
+        user_top_artists = ''
+
     return user_top_artists
 
 
@@ -122,6 +136,8 @@ def user_view(request):
     user_top_artists = get_user_top_artists(user_id)
     user_top_artists_data = [[]]
 
+    log.debug('user top artists')
+    log.debug(user_top_artists)
     # loop through the top 6 artists
     # create links for artists
     # get mixcloud mixes

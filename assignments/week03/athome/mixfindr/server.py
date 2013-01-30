@@ -136,8 +136,6 @@ def user_view(request):
     user_top_artists = get_user_top_artists(user_id)
     user_top_artists_data = [[]]
 
-    log.debug('user top artists')
-    log.debug(user_top_artists)
     # loop through the top 6 artists
     # create links for artists
     # get mixcloud mixes
